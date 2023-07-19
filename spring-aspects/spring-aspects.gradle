@@ -1,3 +1,4 @@
+/*
 description = "Spring Aspects"
 
 apply plugin: "io.freefair.aspectj"
@@ -35,3 +36,4 @@ eclipse.project {
 	natures += "org.eclipse.ajdt.ui.ajnature"
 	buildCommands = [new org.gradle.plugins.ide.eclipse.model.BuildCommand("org.eclipse.ajdt.core.ajbuilder")]
 }
+*/
