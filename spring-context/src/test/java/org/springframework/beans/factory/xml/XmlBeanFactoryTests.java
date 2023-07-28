@@ -124,9 +124,10 @@ class XmlBeanFactoryTests {
 		return new ClassPathResource(CLASSNAME + suffix, CLASS);
 	}
 
-
+	//TODO START
 	@Test  // SPR-2368
 	void collectionsReferredToAsRefLocals() {
+		//spring BeanFactory 核心完整基础类
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(COLLECTIONS_XSD_CONTEXT);
 		factory.preInstantiateSingletons();
