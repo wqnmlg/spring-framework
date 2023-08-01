@@ -918,6 +918,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return (this.configurationFrozen || super.isBeanEligibleForMetadataCaching(beanName));
 	}
 
+	/**
+	 * 提前实例化所有单例 bean
+	 * @throws BeansException
+	 */
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
 		if (logger.isTraceEnabled()) {

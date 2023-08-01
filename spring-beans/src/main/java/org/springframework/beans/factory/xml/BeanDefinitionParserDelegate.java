@@ -523,7 +523,9 @@ public class BeanDefinitionParserDelegate {
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 			//解析元数据
 			parseMetaElements(ele, bd);
+			//解析 lookup-method
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
+			//解析 replaced-method
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 			//解析构造函数
 			parseConstructorArgElements(ele, bd);
@@ -586,12 +588,12 @@ public class BeanDefinitionParserDelegate {
 
 		String autowire = ele.getAttribute(AUTOWIRE_ATTRIBUTE);
 		bd.setAutowireMode(getAutowireMode(autowire));
-
+		//解析 depends-on
 		if (ele.hasAttribute(DEPENDS_ON_ATTRIBUTE)) {
 			String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);
 			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn, MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
-
+		//解析 autowire-candidate
 		String autowireCandidate = ele.getAttribute(AUTOWIRE_CANDIDATE_ATTRIBUTE);
 		if (isDefaultValue(autowireCandidate)) {
 			String candidatePattern = this.defaults.getAutowireCandidates();
@@ -603,11 +605,11 @@ public class BeanDefinitionParserDelegate {
 		else {
 			bd.setAutowireCandidate(TRUE_VALUE.equals(autowireCandidate));
 		}
-
+		// 解析 primary
 		if (ele.hasAttribute(PRIMARY_ATTRIBUTE)) {
 			bd.setPrimary(TRUE_VALUE.equals(ele.getAttribute(PRIMARY_ATTRIBUTE)));
 		}
-
+		// 解析 init-method
 		if (ele.hasAttribute(INIT_METHOD_ATTRIBUTE)) {
 			String initMethodName = ele.getAttribute(INIT_METHOD_ATTRIBUTE);
 			bd.setInitMethodName(initMethodName);
@@ -616,7 +618,7 @@ public class BeanDefinitionParserDelegate {
 			bd.setInitMethodName(this.defaults.getInitMethod());
 			bd.setEnforceInitMethod(false);
 		}
-
+		// 解析 destroy-method
 		if (ele.hasAttribute(DESTROY_METHOD_ATTRIBUTE)) {
 			String destroyMethodName = ele.getAttribute(DESTROY_METHOD_ATTRIBUTE);
 			bd.setDestroyMethodName(destroyMethodName);
@@ -625,7 +627,7 @@ public class BeanDefinitionParserDelegate {
 			bd.setDestroyMethodName(this.defaults.getDestroyMethod());
 			bd.setEnforceDestroyMethod(false);
 		}
-
+		// 解析 factory-method
 		if (ele.hasAttribute(FACTORY_METHOD_ATTRIBUTE)) {
 			bd.setFactoryMethodName(ele.getAttribute(FACTORY_METHOD_ATTRIBUTE));
 		}

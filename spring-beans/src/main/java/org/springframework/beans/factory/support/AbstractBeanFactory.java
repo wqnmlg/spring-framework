@@ -173,6 +173,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** Map from bean name to merged RootBeanDefinition. */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
+	//至少已经被创建过1次的bean集合
 	/** Names of beans that have already been created at least once. */
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
@@ -276,6 +277,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 			// Check if bean definition exists in this factory.
 			BeanFactory parentBeanFactory = getParentBeanFactory();
+			// 如果当前容器中没有这个beanDefinition并且父beanFactory不为空则到父容器中获取bean
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
 				String nameToLookup = originalBeanName(name);
@@ -295,7 +297,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					return (T) parentBeanFactory.getBean(nameToLookup);
 				}
 			}
-
+			//标记bean已经被创建
 			if (!typeCheckOnly) {
 				markBeanAsCreated(beanName);
 			}
@@ -1358,7 +1360,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		return getMergedBeanDefinition(beanName, getBeanDefinition(beanName));
 	}
 
-	/**
+	/** TODO
 	 * Return a RootBeanDefinition for the given top-level bean, by merging with
 	 * the parent if the given bean's definition is a child bean definition.
 	 * @param beanName the name of the bean definition
