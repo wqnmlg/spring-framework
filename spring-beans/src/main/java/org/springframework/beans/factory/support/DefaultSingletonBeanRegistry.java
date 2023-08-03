@@ -73,14 +73,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Maximum number of suppressed exceptions to preserve. */
 	private static final int SUPPRESSED_EXCEPTIONS_LIMIT = 100;
 
-
+	// 已经被创建成功的单例对象缓存
 	/** Cache of singleton objects: bean name to bean instance. */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
-
-	/** Cache of singleton factories: bean name to ObjectFactory. */
+	// 单例对象的工厂实例缓存
+	/** Cache of singleton factories: bean name to ObjectFactory.*/
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
-
-	/** Cache of early singleton objects: bean name to bean instance. */
+	// 已创建单尚未实例化完成的单例缓存
+	/** Cache of early singleton objects: bean name to bean instance.  */
 	private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
 
 	/** Set of registered singletons, containing the bean names in registration order. */
@@ -179,8 +179,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
+		//跟据beanName 从已创建成功的单例缓存中获取（1级缓存）
 		Object singletonObject = this.singletonObjects.get(beanName);
+		//如果1级缓存查不到 则跟据beanName 校验当前bean是否正在创建
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			//跟据beanName 从 已经创建但是尚未实例化完成缓存中获取 （Spring会将当前被创建但尚未初始化完成的单例对象提前放入earlySingletonObjects缓存中-->二级缓存）
 			singletonObject = this.earlySingletonObjects.get(beanName);
 			if (singletonObject == null && allowEarlyReference) {
 				synchronized (this.singletonObjects) {
