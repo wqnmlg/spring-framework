@@ -41,6 +41,7 @@ import org.springframework.aop.testfixture.interceptor.NopInterceptor;
 import org.springframework.aop.testfixture.interceptor.TimestampIntroductionInterceptor;
 import org.springframework.beans.testfixture.beans.IOther;
 import org.springframework.beans.testfixture.beans.ITestBean;
+import org.springframework.beans.testfixture.beans.TestA;
 import org.springframework.beans.testfixture.beans.TestBean;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.annotation.Order;
@@ -58,6 +59,19 @@ import static org.assertj.core.api.Assertions.assertThatRuntimeException;
  * @since 14.05.2003
  */
 public class ProxyFactoryTests {
+
+	@Test
+	void testProxy01(){
+		//被代理类
+		TestA target = new TestA();
+		//代理类创建工厂
+		ProxyFactory proxyFactory = new ProxyFactory(target);
+		proxyFactory.addAdvice(new NopInterceptor(1));
+		proxyFactory.addAdvisor(new DefaultPointcutAdvisor(new NopInterceptor(2)));
+		TestA proxy = (TestA) proxyFactory.getProxy();
+		proxy.hello("wuchao");
+	}
+
 
 	@Test
 	public void testIndexOfMethods() {

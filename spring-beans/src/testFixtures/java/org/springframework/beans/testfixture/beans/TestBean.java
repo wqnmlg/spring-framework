@@ -494,5 +494,4 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 	public String toString() {
 		return this.name;
 	}
-
 }

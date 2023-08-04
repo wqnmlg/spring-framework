@@ -36,7 +36,7 @@ public class PrototypeTargetTests {
 
 	private static final Resource CONTEXT = qualifiedResource(PrototypeTargetTests.class, "context.xml");
 
-
+	
 	@Test
 	public void testPrototypeProxyWithPrototypeTarget() {
 		TestBeanImpl.constructionCount = 0;

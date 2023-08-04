@@ -28,11 +28,22 @@ public class NopInterceptor implements MethodInterceptor {
 
 	private int count;
 
+	private int index ;
+
+	public NopInterceptor(int index) {
+		this.index = index;
+	}
+
+	public NopInterceptor() {
+	}
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		increment();
-		return invocation.proceed();
+		System.out.println(this.index  + "_start");
+		Object result = invocation.proceed();
+		System.out.println(this.index  + "_end");
+		return  result;
 	}
 
 	protected void increment() {
