@@ -1,6 +1,6 @@
 package org.springframework.beans.testfixture.beans;
 
-public class TestA {
+public class TestA implements TestInterface{
 
 	public TestB testB;
 
@@ -19,6 +19,7 @@ public class TestA {
 		this.testB = testB;
 	}
 
+	@Override
 	public void hello(String name){
 		System.out.println(name);
 	}

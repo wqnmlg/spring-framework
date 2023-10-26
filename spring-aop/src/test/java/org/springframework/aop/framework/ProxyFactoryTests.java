@@ -39,10 +39,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.testfixture.advice.CountingBeforeAdvice;
 import org.springframework.aop.testfixture.interceptor.NopInterceptor;
 import org.springframework.aop.testfixture.interceptor.TimestampIntroductionInterceptor;
-import org.springframework.beans.testfixture.beans.IOther;
-import org.springframework.beans.testfixture.beans.ITestBean;
-import org.springframework.beans.testfixture.beans.TestA;
-import org.springframework.beans.testfixture.beans.TestBean;
+import org.springframework.beans.testfixture.beans.*;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.testfixture.TimeStamped;
@@ -66,9 +63,11 @@ public class ProxyFactoryTests {
 		TestA target = new TestA();
 		//代理类创建工厂
 		ProxyFactory proxyFactory = new ProxyFactory(target);
+		//ProxyFactory proxyFactory = new ProxyFactory();
+		proxyFactory.setTargetClass(TestA.class);
 		proxyFactory.addAdvice(new NopInterceptor(1));
 		proxyFactory.addAdvisor(new DefaultPointcutAdvisor(new NopInterceptor(2)));
-		TestA proxy = (TestA) proxyFactory.getProxy();
+		TestInterface proxy = (TestInterface) proxyFactory.getProxy();
 		proxy.hello("wuchao");
 	}
 
